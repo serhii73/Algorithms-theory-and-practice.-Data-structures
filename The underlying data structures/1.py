@@ -1,45 +1,38 @@
-def isBalanced(br):
+def is_balanced(our_line):
+    """Correctly placed brackets?"""
     brackets = []
     stack = []
-    for i in br:
+    for idx, i in enumerate(our_line):
         if i == '{' or i == '}' or i == '[' or i == ']' or i == '(' or i == ')':
-            brackets.append(i)
+            brackets.append([i, idx])
 
-    len_our_brackets = [i for i in range(len(brackets))]
-    d = {}
-    for bracket, len_our_bracket in zip(brackets, len_our_brackets):
-        d.setdefault(bracket, []).append(len_our_bracket)
-    if brackets[0] == ']' or brackets[0] == ')' or brackets[0] == '}':
+    if brackets[0][0] == ']' or brackets[0] == ')' or brackets[0] == '}':
         return 1
     else:
         for our_bracket in brackets:
-            if our_bracket == '{' or our_bracket == '[' or our_bracket == '(':
+            if our_bracket[0] == '{' or our_bracket[0] == '[' or our_bracket[0] == '(':
                 stack.append(our_bracket)
             else:
-                if len(stack) == 0:
-                    return len(brackets)
                 try:
-                    if stack[-1] == '{' and our_bracket == '}' or stack[-1] == '(' \
-                            and our_bracket == ')' or stack[-1] == '[' and our_bracket == ']':
+                    if stack[-1][0] == '{' and our_bracket[0] == '}' or stack[-1][0] == '(' \
+                            and our_bracket[0] == ')' or \
+                            not (not stack[-1][0] == '[' or not our_bracket[0] == ']'):
                         stack.pop()
                     else:
                         stack.append(our_bracket)
-                except:
-                    pass
-
-    # print(stack)
-    # print(d)
+                except IndexError:
+                    stack.append(our_bracket)
     if len(stack) == 0:
         return "Success"
     else:
         for i in stack:
-            # print('i: ', i)
-            if i == '}' or i == ')' or i == ']':
-                return d[i][-1]+1
-            else:
-                return len(brackets)
+            if not (not (i[0] == '}') and not (i[0] == ')')) or i[0] == ']':
+                return i[1]+1
+    for i in stack:
+        if i[0] == '{' or i[0] == '(' or i[0] == '[':
+            return i[1] + 1
 
 
-b = input()
-a = isBalanced(b)
-print(a)
+symbols_and_brackets = input()
+rezult = is_balanced(symbols_and_brackets)
+print(rezult)
