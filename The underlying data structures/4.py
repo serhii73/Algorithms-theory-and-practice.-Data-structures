@@ -1,5 +1,5 @@
-q = int(input())
 stack = []
+
 
 def push(v):
     stack.append(int(v))
@@ -7,19 +7,43 @@ def push(v):
 def pop():
     stack.pop()
 
+def maximum(stack):
+    global big
+    big = max(stack)
+    print(big)
 
-def max(stack):
-    # this function fails if the list length is 0
-    maximum = stack[0]
-    for i in stack[1:]:
-        if i > maximum: maximum = i
-    print(maximum)
+def prBig():
+    print(big)
 
+q = int(input())
+# q = 10
+task = []
 for i in range(q):
-    a = input()
+    z = input()
+    task.append(z)
+# task = ['push 1', 'push 1', 'push 1', "max", 'push 1', 'push 2', 'max', 'pop', 'push 1', 'max', 'max', 'max']
+
+try:
+    for idx, i in enumerate(task):
+        if i == 'max' and task[idx+1] == 'max':
+            i = 'ptintBig'
+except IndexError:
+    pass
+
+
+for a in task:
     if a.split()[0] == "push":
-        push(a.split()[1])
+            push(a.split()[1])
+    elif a == 'printBig':
+        prBig()
     elif a == "pop":
         pop()
     else:
-        max(stack)
+        maximum(stack)
+
+
+max_i = []
+for idx, i in enumerate(task):
+    if i == 'max':
+        max_i.append(idx)
+
